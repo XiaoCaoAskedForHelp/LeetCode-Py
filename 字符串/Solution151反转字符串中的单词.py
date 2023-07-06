@@ -12,7 +12,6 @@ class Solution(object):
         # 将字符串拆分为单词，并翻转每次单词, python的split默认分隔符是单个空格或者多个空格(including \\n \\r \\t \\f and spaces)
         s = ' '.join(word[::-1] for word in s.split())
         return s
-        pass
 
     def reverseWords2(self, s):
         # 将字符串拆分为单词
