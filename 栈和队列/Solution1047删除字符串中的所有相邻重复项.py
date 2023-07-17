@@ -27,4 +27,4 @@ class Solution:
         return "".join(res[0: slow])
 
 
-Solution().removeDuplicates1("abbaca");
+Solution().removeDuplicates1("abbaca")
