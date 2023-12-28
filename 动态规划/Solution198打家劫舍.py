@@ -1,0 +1,35 @@
+from typing import List
+
+
+class Solution:
+    def rob(self, nums: List[int]) -> int:
+        if len(nums) == 0:  # 如果没有房屋，返回0
+            return 0
+        if len(nums) == 1:  # 如果只有一个房屋，返回其金额
+            return nums[0]
+
+            # 创建一个动态规划数组，用于存储最大金额
+        dp = [0] * len(nums)
+        dp[0] = nums[0]  # 将dp的第一个元素设置为第一个房屋的金额
+        dp[1] = max(nums[0], nums[1])  # 将dp的第二个元素设置为第一二个房屋中的金额较大者
+
+        # 遍历剩余的房屋
+        for i in range(2, len(nums)):
+            # 对于每个房屋，选择抢劫当前房屋和抢劫前一个房屋的最大金额
+            dp[i] = max(dp[i - 2] + nums[i], dp[i - 1])
+
+        return dp[-1]  # 返回最后一个房屋中可抢劫的最大金额
+
+    def rob1(self, nums: List[int]) -> int:
+        if not nums:  # 如果没有房屋，返回0
+            return 0
+
+        prev_max = 0  # 上一个房屋的最大金额
+        curr_max = 0  # 当前房屋的最大金额
+
+        for num in nums:
+            temp = curr_max  # 临时变量保存当前房屋的最大金额
+            curr_max = max(prev_max + num, curr_max)  # 更新当前房屋的最大金额
+            prev_max = temp  # 更新上一个房屋的最大金额
+
+        return curr_max  # 返回最后一个房屋中可抢劫的最大金额
