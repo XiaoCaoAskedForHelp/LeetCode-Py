@@ -2,6 +2,7 @@ from typing import List
 
 
 class Solution:
+    #
     # dfs走一遍，跟dfs方向一样的就是需要改的
     def minReorder(self, n: int, connections: List[List[int]]) -> int:
         res = 0
