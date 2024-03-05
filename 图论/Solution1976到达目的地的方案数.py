@@ -5,37 +5,7 @@ from typing import List
 
 
 class Solution:
-    # 下面的写法有问题
     def countPaths(self, n: int, roads: List[List[int]]) -> int:
-        mod = 10 ** 9 + 7
-        dp = [[inf, 0] for _ in range(n)]
-        g = [[] for _ in range(n)]
-        for u, v, time in roads:
-            g[u].append([v, time])
-            g[v].append([u, time])
-        dp[0][0] = 0
-        dp[0][1] = 1
-        visited = [False for i in range(n)]
-        queue = deque([0])
-        while queue:
-            i = queue.popleft()
-            for node, time in g[i]:
-                if visited[node]:
-                    continue
-                if time + dp[i][0] < dp[node][0] and not visited[i]:
-                    dp[node][0] = dp[i][0] + time
-                    dp[node][1] = dp[i][1]
-                    if node != n - 1:
-                        queue.append(node)
-                elif time + dp[i][0] == dp[node][0] and not visited[i]:
-                    dp[node][1] = (dp[node][1] + dp[i][1]) % mod
-                    if node != n - 1:
-                        queue.append(node)
-            visited[i] = True
-
-        return dp[-1][1]
-
-    def countPaths1(self, n: int, roads: List[List[int]]) -> int:
         mod = 10 ** 9 + 7
         e = [[] for _ in range(n)]
         for x, y, t in roads:
