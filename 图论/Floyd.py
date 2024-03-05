@@ -12,6 +12,7 @@ def floyd(graph):
     for k in range(n):
         for i in range(n):
             for j in range(n):
+                # k != i && k != j 可以判断一下
                 # 如果通过节点k的路径比直接从i到j的路径更短，则更新distance[i][j]
                 distances[i][j] = min(distances[i][k] + distances[k][j], distances[i][j])
 
