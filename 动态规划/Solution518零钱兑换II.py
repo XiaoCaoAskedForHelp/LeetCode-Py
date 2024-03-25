@@ -1,9 +1,11 @@
-from cmath import inf
 from functools import cache
 from typing import List
 
+import cachetools
+
 
 class Solution:
+    # 组合数，所以先遍历物品，这样顺序固定不会出现{1,2}和{2,1}这样的重复解
     def change(self, amount: int, coins: List[int]) -> int:
         dp = [0] * (amount + 1)
         dp[0] = 1
@@ -14,31 +16,14 @@ class Solution:
                 dp[j] += dp[j - coins[i]]
         return dp[amount]
 
-    def coinChange1(self, coins: List[int], amount: int) -> int:
-        dp = [inf] * (amount + 1)
-        dp[0] = 0
-        for i in range(1, amount + 1):
-            for coin in coins:
-                # if i - coin >= 0 and (i - coin == 0 or dp[i - coin] != 0):
-                if i - coin >= 0:
-                    dp[i] = min(dp[i - coin] + 1, dp[i])
-        return -1 if dp[-1] == inf else dp[-1]
-
-    def coinChange2(self, coins: List[int], amount: int) -> int:
+    # dfs(i,c) 表示用前 i 种硬币组成金额 c 的方案数，考虑「选或不选」
+    def change1(self, amount: int, coins: List[int]) -> int:
         @cache
-        def dfs(amo: int):
-            if amo < 0:
-                return -1
-            if amo == 0:
-                return 0
-            mini = inf
-            for coin in coins:
-                res = dfs(amo - coin)
-                if res >= 0 and res < mini:
-                    mini = res + 1
-            return mini if mini < inf else -1
+        def dfs(i: int, c: int):
+            if i < 0:
+                return 1 if c == 0 else 0
+            if c < coins[i]:
+                return dfs(i - 1, c)  # 如果当前的硬币大于金额，那么只能使用前面更小的硬盘去组合
+            return dfs(i - 1, c) + dfs(i, c - coins[i])  # 不在选用第i种硬币和继续选一枚第i种硬币
 
-        return dfs(amount)
-
-
-Solution().coinChange1(coins=[1, 2, 5], amount=11)
+        return dfs(len(coins) - 1, amount)
