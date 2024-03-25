@@ -35,4 +35,4 @@ class Solution:
         return ans
 
 
-Solution().maximumLengthSubstring(s="bcbbbcba")
+Solution().maximumLengthSubstring1(s="bcbbbcba")
