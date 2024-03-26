@@ -18,11 +18,13 @@ import math
 from cmath import inf
 from collections import defaultdict
 
+# 有点反向操作的意思，通过质因子去联系数字
 # 找出每个数的质因子用map存起来，key存质因子，val则是存储最小下标。
 #  后续如果发现相同的质因子，则枚举该数字出现的质因子找最小下标
 n = int(input())
 nums = list(map(int, input().split()))
 
+# 将Ai范围内的所有质因数都找到
 is_prime = [True] * (10 ** 6 + 1)
 i = 2
 primes = []
