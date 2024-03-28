@@ -40,7 +40,7 @@ class Solution:
     # 那么当我们访问这个范围内的每个房间时，算上本次访问，访问次数一定是奇数，所以要想重新回到i，对于[j, i−1] 范围内的每个房间，我们都需要执行一次「回访」。
     # 定义 f[i] 表示从「访问到房间 i 且次数为奇数」到「访问到房间 i 且次数为偶数」所需要的天数。
     def firstDayBeenInAllRooms2(self, nextVisit: List[int]) -> int:
-        s = [0] * len(nextVisit)
+        s = [0] * len(nextVisit) # s是前缀和，第一个是0
         for i, j in enumerate(nextVisit[:-1]):
             s[i + 1] = (s[i] * 2 - s[j] + 2) % 1_000_000_007
         return s[-1]
