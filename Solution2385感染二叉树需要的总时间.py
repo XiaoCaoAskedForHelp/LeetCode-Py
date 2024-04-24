@@ -77,7 +77,7 @@ class Solution:
             if l_found or r_found:
                 # 只有在左子树和右子树包含start时，才能更新答案，以每一个节点作为转折点计算他的左右最大长度，树的直径就是其中的最大值
                 ans = max(ans, l_len + r_len)  # 两条链拼成直径
-                return (l_len if l_found else r_len) + 1, True
+                return (l_len if l_found else r_len) + 1, True  # 因为要找到从start开始的最大直径，所以没有start的一边不要
             return max(l_len, r_len) + 1, False
 
         dfs(root)
