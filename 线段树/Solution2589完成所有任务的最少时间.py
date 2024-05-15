@@ -1,3 +1,4 @@
+import bisect
 from typing import List
 
 
@@ -72,4 +73,27 @@ class Solution:
             if suffix > 0: update(1, 1, u, start, end)  # 新增时间点
         return cnt[1]
 
+    # 由于每次都是从右到左新增时间点，把连续的时间点都看成闭区间，那么从右到左新增时间点，会把若干右侧的区间合并成一个大区间，
+    # 栈中维护闭区间的左右端点，以及从占地到栈顶的区间长度之和（类似前缀和）
+    # 二分查找左端点start的区间，
+    def findMinimumTime2(self, tasks: List[List[int]]) -> int:
+        tasks.sort(key=lambda x: x[1])
+        # 栈中保存闭区间左右端点，栈底到栈顶的区间长度之和
+        st = [(-2, -2, 0)]  # 哨兵，保证不和任何区间相交
+        for start, end, d in tasks:
+            _, r, s = st[bisect.bisect_left(st, (start,)) - 1]
+            d -= st[-1][2] - s  # 去掉运行中的时间点(所有的运行时长减去start时间点之前的运行时长)
+            if start <= r:  # start在区间st[i]中
+                d -= r - start + 1  # 去掉运行中的时间点
+            if d <= 0:
+                continue
+            if d <= 0:
+                continue
+            while end - st[-1][1] <= d:  # 剩余区间后缀去填充d
+                l, r, _ = st.pop()
+                d += r - l + 1  # 合并区间
+            st.append((end - d + 1, end, st[-1][2] + d))
+        return st[-1][2]
 
+
+Solution().findMinimumTime2(tasks=[[2, 3, 1], [4, 5, 1], [1, 5, 2]])
