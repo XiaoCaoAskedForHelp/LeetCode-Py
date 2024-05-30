@@ -1,0 +1,19 @@
+from collections import defaultdict
+
+
+class Solution:
+    def maximumLength(self, s: str) -> int:
+        groups = defaultdict(list)
+        cnt = 0
+        for i, ch in enumerate(s):
+            cnt += 1
+            if i + 1 == len(s) or ch != s[i + 1]:
+                groups[ch].append(cnt)
+                cnt = 0
+
+        ans = 0
+        for a in groups.values():
+            a.sort(reverse=True)
+            a.extend([0, 0])
+            ans = max(ans, a[0] - 2, min(a[0] - 1, a[1]), a[2])
+        return ans if ans else -1
